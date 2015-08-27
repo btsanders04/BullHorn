@@ -70,7 +70,7 @@ public class Profile extends HttpServlet {
 		try {
 			for (model.Post p : posts) {
 
-				profiles += " <div class = \"container\"><div class=\"panel panel-primary\"><div class=\"panel-heading\">"
+				profiles += " <div class = \"container\"><div class=\"panel panel-primary\"><div class=\"panel-heading\" style=\"background-color:black\">"
 						+ p.getPostId()
 						+ "</div>"
 						+ " <div class=\"panel-body\"><p > Date: "
@@ -99,7 +99,7 @@ public class Profile extends HttpServlet {
 		try{
 			model.Userprofile user = q.getSingleResult();
 
-			profile += "<div class=\"container\"><div class=\"item  col-xs-4 col-lg-4\">  <div class=\"panel panel-primary\"><div class=\"panel-heading\">"+user.getUserId() 
+			profile += "<div class=\"container\"><div class=\"item  col-xs-4 col-lg-4\">  <div class=\"panel panel-primary\"><div class=\"panel-heading\" style=\"background-color:black\">"+user.getUserId() 
 					+"</div><div class=\"panel-body\"> <p class=\"group inner list-group-item-text\">"+user.getUserName() 
 						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getUserEmail() 
 						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getUserZipcode()

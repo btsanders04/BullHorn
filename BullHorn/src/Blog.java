@@ -46,8 +46,8 @@ public class Blog extends HttpServlet {
 		for (model.Post p : posts) {
 
 			blogs += "<div class=\"container\">";
-			blogs += "<div class = \"panel panel-primary\" ><div class=\"panel-heading\" style=\"color:white\">"
-					+ "<a href=\"Profile?user="+p.getUserprofile().getUserId()+"\">" + p.getUserprofile().getUserName() + "</a></div>";
+			blogs += "<div class = \"panel panel-primary\" ><div class=\"panel-heading\" style=\"background-color:black\">"
+					+ "<a href=\"Profile?user="+p.getUserprofile().getUserId()+"\"><font color=\"white\">" + p.getUserprofile().getUserName() + "</font></a></div>";
 			blogs += " <div class=\"panel-body\"><p > Date: "
 					+ new SimpleDateFormat("MM/dd/yyyy")
 							.format(p.getPostDate()) + " </p>";
@@ -79,8 +79,8 @@ public class Blog extends HttpServlet {
 
 				
 				blogs += "<div class=\"container\">";
-				blogs += "<div class = \"panel panel-primary\"><div class=\"panel-heading\">"
-						+ "<a href=\"index.jsp\">"+p.getUserprofile().getUserName() + "</a></div>";
+				blogs += "<div class = \"panel panel-primary\"><div class=\"panel-heading style=\"background-color:black\">"
+						+ "<a href=\"Profile?user="+p.getUserprofile().getUserId()+"\"><font color=\"white\">" +p.getUserprofile().getUserName() + "</font></a></div>";
 				blogs += " <div class=\"panel-body\"><p> Date: "
 						+ new SimpleDateFormat("MM/dd/yyyy").format(p
 								.getPostDate()) + " </p>";
