@@ -36,7 +36,6 @@ public class WriteBlog extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	*/
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//request.setAttribute("date", "mm/dd/yyyy");
 		request.setAttribute("description", "Enter Description");
 		request.setAttribute("action","WriteBlog");
 		getServletContext().getRequestDispatcher("/WriteBlog.jsp").forward(request,
@@ -47,26 +46,17 @@ public class WriteBlog extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String date = request.getParameter("date");
-		date = date.replace("-", "/");
-		System.out.println(date);
+
 		model.Userprofile user = (model.Userprofile)request.getSession().getAttribute("User");
 		String description = request.getParameter("desc");
-		postBlog(user,date, description);
+		postBlog(user,new Date(), description);
 		getServletContext().getRequestDispatcher("/index.jsp").forward(request,
 				response);
 	}
 	
 	
-	protected void postBlog(model.Userprofile user, String dateString, String desc){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = null;
-		try {
-			date = formatter.parse(dateString);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	protected void postBlog(model.Userprofile user, Date date, String desc){
+		
 		model.Post blog = new model.Post();
 		blog.setDescription(desc);
 		blog.setPostDate(date);
@@ -87,16 +77,4 @@ public class WriteBlog extends HttpServlet {
 	
 	}
 	
-	/*
-	protected void updateNumReviews(int restId){
-		String sql = "update restaurants set num_rating = ((select num_rating from restaurants where restaurant_id = "+ 
-				restId+") + 1) where restaurant_id = "+ restId;
-		try {
-			DBQuery.updateDB(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
 }

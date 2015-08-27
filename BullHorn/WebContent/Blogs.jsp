@@ -18,5 +18,15 @@
 <body>
 <jsp:include page="NavBar.jsp"/>
 ${blogs}
+
+<div class="container">
+  <form role="form" action = "Blogs" method="POST">
+    <div class="form-group">
+      <label for="words">Search for Specific Word(s)</label>
+      <input type="words" class="form-control" id="words" name="words" placeholder="Enter word(s)">
+    </div>
+    <button type="submit" class="btn btn-default">Search</button>
+  </form>
+</div>
 </body>
 </html>

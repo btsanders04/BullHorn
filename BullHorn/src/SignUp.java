@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -67,6 +68,7 @@ public class SignUp extends HttpServlet {
 		user.setUserName(name);
 		user.setUserPass(pwd);
 		user.setUserZipcode(zip);
+		user.setJoinDate(new Date());
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 		trans.begin();

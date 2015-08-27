@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,6 +35,12 @@ public class Userprofile implements Serializable {
 
 	@Column(name="USER_ZIPCODE")
 	private String userZipcode;
+	
+	@Column(name="MOTTO")
+	private String motto;
+	
+	@Column(name="JOIN_DATE")
+	private Date joinDate;
 
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="userprofile")
@@ -41,6 +48,32 @@ public class Userprofile implements Serializable {
 
 	public Userprofile() {
 	}
+	
+	
+
+	public String getMotto() {
+		return motto;
+	}
+
+
+
+	public void setMotto(String motto) {
+		this.motto = motto;
+	}
+
+
+
+	public Date getJoinDate() {
+		return joinDate;
+	}
+
+
+
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
+	}
+
+
 
 	public long getUserId() {
 		return this.userId;
