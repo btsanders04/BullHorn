@@ -46,6 +46,7 @@
 						placeholder="${zip}">
 				</div>
 			</div>
+			${image}
 			${motto}
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">

@@ -47,7 +47,11 @@ public class EditProfile extends HttpServlet {
 		request.setAttribute("zip",user.getUserZipcode());
 		String motto = "<div class=\"form-group\"><label class=\"control-label col-sm-2\" for=\"motto\">Motto:</label>"+
 		"<div class=\"col-sm-10\"><input type=\"text\" class=\"form-control\" id=\"motto\" name=\"motto\""+
-		"placeholder=\""+user.getMotto()+"\"></div</div>";
+		"placeholder=\""+user.getMotto()+"\"></div></div>";
+		String image = "<div class=\"form-group\"><label class=\"control-label col-sm-2\" for=\"image\">Background Image:</label>"+
+				"<div class=\"col-sm-10\"><input type=\"text\" class=\"form-control\" id=\"image\" name=\"image\""+
+				"placeholder=\""+user.getImageLink()+"\"></div></div>";
+		request.setAttribute("image", image);
 		request.setAttribute("motto",motto);
 		getServletContext().getRequestDispatcher("/SignUp.jsp").forward(request, response);
 	}
@@ -67,13 +71,16 @@ public class EditProfile extends HttpServlet {
 			user.setUserZipcode(request.getParameter("zip"));
 			if(!request.getParameter("motto").equals(""))
 				user.setMotto(request.getParameter("motto"));
+			if(!request.getParameter("image").equals(""))
+				user.setImageLink(request.getParameter("image"));
 			EntityManager em = DBUtil.getEmFactory().createEntityManager();
 			EntityTransaction trans = em.getTransaction();
 			trans.begin();
 			Query query = em.createQuery("UPDATE Userprofile u SET u.userName =:name, u.userEmail=:email, u.userPass=:pass," 
-					+ "u.userZipcode = :zip, u.motto = :mot WHERE u.userId = :id");
+					+ "u.userZipcode = :zip, u.motto = :mot, u.imageLink = :link WHERE u.userId = :id");
 			query.setParameter("id", user.getUserId()).setParameter("name", user.getUserName())
 			.setParameter("email",user.getUserEmail()).setParameter("pass",user.getUserPass())
+			.setParameter("link", user.getImageLink())
 			.setParameter("zip",user.getUserZipcode()).setParameter("mot",user.getMotto());
 			try{
 			query.executeUpdate();

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -38,6 +39,7 @@ public class WriteBlog extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("description", "Enter Description");
 		request.setAttribute("action","WriteBlog");
+		request.setAttribute("recipients",getRecipients());
 		getServletContext().getRequestDispatcher("/WriteBlog.jsp").forward(request,
 				response);
 	}
@@ -49,20 +51,35 @@ public class WriteBlog extends HttpServlet {
 
 		model.Userprofile user = (model.Userprofile)request.getSession().getAttribute("User");
 		String description = request.getParameter("desc");
-		postBlog(user,new Date(), description);
+		String recipient = request.getParameter("rec");
+		postBlog(user,new Date(), description, recipient);
 		getServletContext().getRequestDispatcher("/index.jsp").forward(request,
 				response);
 	}
 	
+	protected String getRecipients(){
+		String returnRec="";
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		List<model.Userprofile> recipients = em.createQuery("select u from Userprofile u order by u.userId").getResultList();
+		for(model.Userprofile u : recipients){
+			returnRec+="<option>"+u.getUserName()+"</option>";
+		}
+		return returnRec;
+	}
 	
-	protected void postBlog(model.Userprofile user, Date date, String desc){
+	protected void postBlog(model.Userprofile user, Date date, String desc, String rec){
+		
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		model.Userprofile recipient = em.createQuery("select u from Userprofile u where u.userName = :rec",model.Userprofile.class).setParameter("rec", rec).getSingleResult();
+		
 		
 		model.Post blog = new model.Post();
 		blog.setDescription(desc);
 		blog.setPostDate(date);
 		blog.setUserprofile(user);
-		EntityManager em = DBUtil.getEmFactory().createEntityManager();
-		EntityTransaction trans = em.getTransaction();
+		blog.setRecipient(recipient);
+		
 		trans.begin();
 		try{
 		em.persist(blog);

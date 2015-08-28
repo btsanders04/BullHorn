@@ -1,9 +1,7 @@
 package model;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -13,16 +11,23 @@ import java.util.List;
  * 
  */
 @Entity
-
 @NamedQuery(name="Userprofile.findAll", query="SELECT u FROM Userprofile u")
 public class Userprofile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="UserSeq", sequenceName="UserSeq", initialValue=5, allocationSize=1)
-	@GeneratedValue(generator = "UserSeq", strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="USER_ID")
 	private long userId;
+
+	@Column(name="IMAGE_LINK")
+	private String imageLink;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="JOIN_DATE")
+	private Date joinDate;
+
+	private String motto;
 
 	@Column(name="USER_EMAIL")
 	private String userEmail;
@@ -35,12 +40,6 @@ public class Userprofile implements Serializable {
 
 	@Column(name="USER_ZIPCODE")
 	private String userZipcode;
-	
-	@Column(name="MOTTO")
-	private String motto;
-	
-	@Column(name="JOIN_DATE")
-	private Date joinDate;
 
 	//bi-directional many-to-one association to Post
 	@OneToMany(mappedBy="userprofile")
@@ -48,32 +47,6 @@ public class Userprofile implements Serializable {
 
 	public Userprofile() {
 	}
-	
-	
-
-	public String getMotto() {
-		return motto;
-	}
-
-
-
-	public void setMotto(String motto) {
-		this.motto = motto;
-	}
-
-
-
-	public Date getJoinDate() {
-		return joinDate;
-	}
-
-
-
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
-	}
-
-
 
 	public long getUserId() {
 		return this.userId;
@@ -81,6 +54,30 @@ public class Userprofile implements Serializable {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public String getImageLink() {
+		return this.imageLink;
+	}
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
+
+	public Date getJoinDate() {
+		return this.joinDate;
+	}
+
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
+	}
+
+	public String getMotto() {
+		return this.motto;
+	}
+
+	public void setMotto(String motto) {
+		this.motto = motto;
 	}
 
 	public String getUserEmail() {

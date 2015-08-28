@@ -21,7 +21,7 @@ import customTools.DBUtil;
 @WebServlet("/Profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private String imgLink;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -36,8 +36,7 @@ public class Profile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("user"));
-		
+		Integer id = Integer.parseInt(request.getParameter("user")); 
 		
 		String profile=printProfile(id);
 		String posts=printPosts(id);
@@ -45,6 +44,7 @@ public class Profile extends HttpServlet {
 		response.setContentType("text/html");
 
 		// Actual logic goes here.
+		request.setAttribute("imgLink", imgLink);
 		request.setAttribute("profile", profile);
 		request.setAttribute("posts",posts);
 		getServletContext().getRequestDispatcher("/Profile.jsp").forward(
@@ -98,14 +98,14 @@ public class Profile extends HttpServlet {
 		
 		try{
 			model.Userprofile user = q.getSingleResult();
-
-			profile += "<div class=\"container\"><div class=\"item  col-xs-4 col-lg-4\">  <div class=\"panel panel-primary\"><div class=\"panel-heading\" style=\"background-color:black\">"+user.getUserId() 
+			imgLink = user.getImageLink();
+			profile += "<div class =\"jumbotron\" style =\"background-color: transparent\"><font color=\"white\"><h1>"+user.getMotto()+"</h1></font></div><div class=\"container\"><div class=\"item  col-xs-4 col-lg-4\">  <div class=\"panel panel-primary\"><div class=\"panel-heading\" style=\"background-color:black\">"+user.getUserId() 
 					+"</div><div class=\"panel-body\"> <p class=\"group inner list-group-item-text\">"+user.getUserName() 
 						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getUserEmail() 
 						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getUserZipcode()
-						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getJoinDate() 
-						+"</p> <p class=\"group inner list-group-item-text\"> "+user.getMotto() 
-					+"</p></div></div></div></div>";
+						+"</p> <p class=\"group inner list-group-item-text\"> "+new SimpleDateFormat("MM/dd/yyyy")
+						.format(user.getJoinDate())
+						+"</p></div></div></div></div>";
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -113,4 +113,6 @@ public class Profile extends HttpServlet {
 		}
 		return profile;
 	}
+	
+	
 }

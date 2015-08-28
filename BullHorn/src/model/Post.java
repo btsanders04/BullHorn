@@ -10,14 +10,12 @@ import java.util.Date;
  * 
  */
 @Entity
-
 @NamedQuery(name="Post.findAll", query="SELECT p FROM Post p")
 public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="BlogSeq", sequenceName="BlogSeq", initialValue=1, allocationSize=1)
-	@GeneratedValue(generator = "BlogSeq", strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="POST_ID")
 	private long postId;
 
@@ -26,6 +24,10 @@ public class Post implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="POST_DATE")
 	private Date postDate;
+
+	@OneToOne
+	@JoinColumn(name="RECIPIENT")
+	private Userprofile recipient;
 
 	//bi-directional many-to-one association to Userprofile
 	@ManyToOne
@@ -57,6 +59,14 @@ public class Post implements Serializable {
 
 	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
+	}
+
+	public Userprofile getRecipient() {
+		return this.recipient;
+	}
+
+	public void setRecipient(Userprofile recipient) {
+		this.recipient = recipient;
 	}
 
 	public Userprofile getUserprofile() {
